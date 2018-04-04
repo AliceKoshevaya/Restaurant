@@ -1,15 +1,29 @@
 package ua.nure.koshova.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "category")
 public class Category {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
     private String name;
 
-    public Category(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+//    @OneToMany(mappedBy = "category")
+//    private Set<Product> products;
 
-   public Category() {}
+//    public Category(Long id, String name, Set<Product> products) {
+//        this.id = id;
+//        this.name = name;
+//        this.products = products;
+//    }
+
+    public Category() {
+    }
 
     public Long getId() {
         return id;
@@ -26,4 +40,12 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
+
+//    public Set<Product> getProducts() {
+//        return products;
+//    }
+//
+//    public void setProducts(Set<Product> products) {
+//        this.products = products;
+//    }
 }

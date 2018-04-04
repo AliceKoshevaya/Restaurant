@@ -1,19 +1,48 @@
 package ua.nure.koshova.entity;
 
 
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Set;
 
+@Entity
+@Table(name = "\"ORDER\"")
 public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "id_user",
+            nullable = false
+    )
     private User user;
-    private Basket basket;
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name="product_order",
+            joinColumns = { @JoinColumn(name = "id_order") },
+            inverseJoinColumns = { @JoinColumn(name = "id_product") }
+    )
+    private Set<Product> products;
+
+    @Column(name = "destination")
     private String destination;
+
+    @Column(name = "datetime")
     private Timestamp datetime;
 
-    public Order(Long id, User user, Basket basket, String destination, Timestamp datetime) {
+    public Order(Long id,
+                 User user,
+                 Set<Product> products,
+                 String destination,
+                 Timestamp datetime) {
         this.id = id;
         this.user = user;
-        this.basket = basket;
+        this.products = products;
         this.destination = destination;
         this.datetime = datetime;
     }
@@ -37,12 +66,12 @@ public class Order {
         this.user = user;
     }
 
-    public Basket getBasket() {
-        return basket;
+    public Set<Product> getProducts() {
+        return products;
     }
 
-    public void setBasket(Basket basket) {
-        this.basket = basket;
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 
     public String getDestination() {

@@ -1,12 +1,12 @@
 DROP TABLE IF EXISTS basket;
-DROP TABLE IF EXISTS order;
+DROP TABLE IF EXISTS "order";
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS user;
 
 
 CREATE TABLE IF NOT EXISTS user (
-  id         IDENTITY PRIMARY KEY,
+  id         IDENTITY PRIMARY KEY AUTO_INCREMENT,
   telephone  VARCHAR(20) NOT NULL,
   password   VARCHAR(30) NOT NULL,
   first_name VARCHAR(20) NOT NULL,
@@ -14,29 +14,29 @@ CREATE TABLE IF NOT EXISTS user (
 );
 
 CREATE TABLE IF NOT EXISTS category (
-  id   IDENTITY PRIMARY KEY,
+  id   IDENTITY PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS product (
-  id          IDENTITY PRIMARY KEY,
+  id          IDENTITY PRIMARY KEY AUTO_INCREMENT,
   name        VARCHAR(20) NOT NULL,
-  id_category IDENTITY    NOT NULL,
+  id_category BIGINT    NOT NULL,
   price       DOUBLE      NOT NULL,
   FOREIGN KEY (id_category) REFERENCES category (id)
 );
 
-CREATE TABLE IF NOT EXISTS order (
-  id          IDENTITY PRIMARY KEY,
-  id_user     IDENTITY    NOT NULL,
+CREATE TABLE IF NOT EXISTS "order" (
+  id          IDENTITY PRIMARY KEY AUTO_INCREMENT,
+  id_user     BIGINT    NOT NULL,
   datetime    TIMESTAMP   NOT NULL,
-  destination VARCHAR(40) NOT NULL,
+  destination VARCHAR(50) NOT NULL,
   FOREIGN KEY (id_user) REFERENCES user (id)
 );
 
-CREATE TABLE IF NOT EXISTS basket (
-  id         IDENTITY PRIMARY KEY,
-  id_product IDENTITY NOT NULL,
-  id_order   IDENTITY NOT NULL,
+CREATE TABLE IF NOT EXISTS product_order (
+  id         IDENTITY PRIMARY KEY AUTO_INCREMENT,
+  id_product BIGINT NOT NULL,
+  id_order   BIGINT NOT NULL,
   FOREIGN KEY (id_product) REFERENCES product (id),
 );

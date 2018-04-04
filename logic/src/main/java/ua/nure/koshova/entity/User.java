@@ -1,23 +1,30 @@
 package ua.nure.koshova.entity;
 
+import javax.persistence.*;
+import java.util.Set;
 
+@Entity
+@Table(name = "USER")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "telephone")
     private String telephone;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
 
-    public User(Long id, String telephone, String password, String firstName, String lastName) {
-        this.id = id;
-        this.telephone = telephone;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public User() {
-    }
+    @OneToMany(mappedBy = "user")
+    private Set<Order> orders;
 
     public Long getId() {
         return id;
@@ -57,6 +64,14 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
     }
 }
 
